@@ -1,6 +1,9 @@
 # microservice-example-go
 Example project showing how to create a simple Microservice with Go
 
+
+# Getting started
+
 Inspired by
 
 https://dzone.com/articles/go-microservices-blog-series-part-1
@@ -74,5 +77,42 @@ func main() {
 go run *.go
 ```
 
+# HTTP endpoints with Go
+
+see https://thenewstack.io/make-a-restful-json-api-go/
+
+Create a new dir and file `service/webservice.go` inside `accountservice`:
+
+```
+package service
+
+import (
+
+	"net/http"
+
+	"log"
+
+)
+
+func StartWebServer(port string) {
+
+	log.Println("Starting HTTP service at " + port)
+
+	err := http.ListenAndServe(":" + port, nil)    // Goroutine will block here
+
+	if err != nil {
+
+		log.Println("An error occured starting HTTP listener at port " + port)
+
+		log.Println("Error: " + err.Error())
+
+	}
+
+}
+```
+
+# Links
+
+https://www.golang-book.com/books/intro/4
 
 
