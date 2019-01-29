@@ -154,10 +154,128 @@ As we didn't declare any routes, this 404 should be great for now.
 
 ### Adding Routes
 
+Let's use [gorillatoolkit](http://www.gorillatoolkit.org/) as the web toolkit for Go.
 
+Therefore create `routes.go` file inside `service` directory:
+
+```go
+package service
+
+import "net/http"
+
+// Defines a single route, e.g. a human readable name, HTTP method and the
+
+// pattern the function that will execute when the route is called.
+
+type Route struct {
+
+Name        string
+
+Method      string
+
+Pattern     string
+
+HandlerFunc http.HandlerFunc
+
+}
+
+// Defines the type Routes which is just an array (slice) of Route structs.
+
+type Routes []Route
+
+// Initialize our routes
+
+var routes = Routes{
+
+Route{
+
+"GetAccount",                                     // Name
+
+"GET",                                            // HTTP method
+
+"/accounts/{accountId}",                          // Route pattern
+
+func(w http.ResponseWriter, r *http.Request) {
+
+            w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
+            w.Write([]byte("{\"result\":\"OK\"}"))
+
+        },
+
+},
+
+}
+```
+
+We're using [Go structs](https://gobyexample.com/structs) here. Structs can be used to define data structure/models in Go. Here the struct defines everything needed for our first route.
+
+And __now - OMG! - there we are!__ We need to create some __boilderplate__ code to actually spin up the Gorilla Router (oh, I thought here's everything really better than in Spring Boot, hu?!!).
+
+So let's create `router.go` also inside `service` directory:
+
+```go
+package service
+
+import (
+
+"github.com/gorilla/mux"
+
+)
+
+// Function that returns a pointer to a mux.Router we can use as a handler.
+
+func NewRouter() *mux.Router {
+
+    // Create an instance of the Gorilla router
+
+router := mux.NewRouter().StrictSlash(true)
+
+// Iterate over the routes we declared in routes.go and attach them to the router instance
+
+for _, route := range routes {
+
+    // Attach each route, uses a Builder-like pattern to set each route up.
+
+router.Methods(route.Method).
+
+                Path(route.Pattern).
+
+                Name(route.Name).
+
+                Handler(route.HandlerFunc)
+
+}
+
+return router
+
+}
+```
+
+That's interesting. We can access `routes` directly from [routes.go](accountservice/service/routes.go) without importing the file - it's in the same package.
+
+Furthermore we can use [range](https://gobyexample.com/range) and for (the `_` is just to ignore the index that range provides also) to iterate over our `routes` and set the route up with Gorilla's builder API.
+
+Now head over to [webserver.go](accountservice/service/webservice.go) and add the two lines at the start of the `StartWebServer` function:
+
+```go
+func StartWebServer(port string) {
+
+        r := NewRouter()             
+        http.Handle("/", r) 
+```
+
+Start the server again with `go run *.go` and curl 
+
+```
+$ curl localhost:6767/accounts/10000 
+{"result":"OK"}
+```
 
 # Links
 
 https://www.golang-book.com/books/intro/4
+
+https://gobyexample.com/range
 
 

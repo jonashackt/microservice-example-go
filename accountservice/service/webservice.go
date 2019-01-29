@@ -8,6 +8,10 @@ import (
 
 func StartWebServer(port string) {
 
+	router := NewRouter()
+
+	http.Handle("/", router)
+
 	log.Println("Starting HTTP service at " + port)
 
 	err := http.ListenAndServe(":"+port, nil) // Goroutine will block here
