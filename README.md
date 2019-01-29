@@ -42,7 +42,7 @@ IntelliJ with Go Plugin or Goland, both from Jetbrains (see https://www.jetbrain
 
 ```
 $ cd goworkspace
-mkdir microservice-example-go
+mkdir src/github.com/YourUserNameHere/microservice-example-go
 cd microservice-example-go
 mkdir accountservice
 cd accountservice
@@ -53,7 +53,7 @@ Open the project in IntelliJ.
 
 Now implement the `main.go`:
 
-```
+```go
 package main
 
 import (
@@ -81,9 +81,12 @@ go run *.go
 
 see https://thenewstack.io/make-a-restful-json-api-go/
 
+
+### Bootstrapping a HTTP server
+
 Create a new dir and file `service/webservice.go` inside `accountservice`:
 
-```
+```go
 package service
 
 import (
@@ -110,6 +113,48 @@ func StartWebServer(port string) {
 
 }
 ```
+
+Update [main.go](accountservice/main.go) to startup HTTP server:
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/jonashackt/microservice-example-go/accountservice/service"
+)
+
+var appName = "accountservice"
+
+func main() {
+
+	fmt.Printf("Stooaaarrrrting %v\n", appName)
+	service.StartWebServer("6767")
+}
+```
+
+Now run the app again:
+
+```
+$ go run *.go
+Stooaaarrrrting accountservice
+2019/01/29 21:13:19 Starting HTTP service at 6767
+```
+
+Switch over to a new tab/bash and curl our new server:
+
+```
+$ curl localhost:6767
+404 page not found
+```
+
+As we didn't declare any routes, this 404 should be great for now.
+
+
+### Adding Routes
+
+
 
 # Links
 
