@@ -272,10 +272,143 @@ $ curl localhost:6767/accounts/10000
 {"result":"OK"}
 ```
 
+
+
+
+
 # Links
 
 https://www.golang-book.com/books/intro/4
 
-https://gobyexample.com/range
+Very good basic concepts site:
+https://gobyexample.com
+
+Curated list of tools https://awesome-go.com/
+
+Configuration / parameterization https://github.com/spf13/viper
+
+HTTP & Dependency Injection https://github.com/mustafaakin/gongular
+
+### Enums
+
+https://blog.learngoprogramming.com/golang-const-type-enums-iota-bc4befd096d3
+
+https://stackoverflow.com/questions/14426366/what-is-an-idiomatic-way-of-representing-enums-in-go
+
+### Testing
+
+https://jaxenter.de/testen-benchmarks-go-70936
+
+execute
+
+```
+go test -v
+```
+
+### Vendoring
+
+https://goenning.net/2017/02/23/packages-vendoring-in-go/
+
+https://arslan.io/2018/08/26/using-go-modules-with-vendor-support-on-travis-ci/
+
+### Webservices
+
+https://jaxenter.de/restful-rest-api-go-golang-68845
+
+##### gorilla-mux
+
+https://gowebexamples.com/routes-using-gorilla-mux/
+
+https://semaphoreci.com/community/tutorials/building-and-testing-a-rest-api-in-go-with-gorilla-mux-and-postgresql
+
+https://medium.com/@kelvin_sp/building-and-testing-a-rest-api-in-golang-using-gorilla-mux-and-mysql-1f0518818ff6
+
+##### Swagger Go
+
+https://www.ribice.ba/swagger-golang/
+
+### Microservice frameworks
+
+https://medium.com/seek-blog/microservices-in-go-2fc1570f6800
+
+[3 main choices](https://www.quora.com/What-are-some-of-the-most-well-known-Go-Golang-Microservice-frameworks-libraries-out-there):
+
+* https://github.com/micro/go-micro
+* https://github.com/nytimes/gizmo
+* https://github.com/go-kit/kit (complex! https://www.reddit.com/r/golang/comments/5tesl9/why_i_recommend_to_avoid_using_the_gokit_library/)
+
+or do it without a Microservice framework
+
+https://outcrawl.com/go-microservices-cqrs-docker/
 
 
+
+
+# Microservice(s) with go-micro
+
+https://github.com/micro/micro
+
+https://micro.mu/docs/toolkit.html
+
+### Install micro CLI
+
+__Don't do__ `brew install micro` - this will install an text editor.
+
+Instead, install go-micro incl. CLI via
+
+```
+go get -u github.com/micro/micro
+```
+
+> This isn't everything! You'll get $ micro --version  -bash: micro: command not found errors, so please also do:
+
+And then make sure to add the bin directory to your path inside your `.bash_profile`:
+
+```
+export GOPATH=/Users/jonashecht/dev/goworkspace
+export PATH=$PATH:$GOPATH/bin
+```
+
+```
+brew install protobuf
+```
+
+### Generate project skeleton
+
+Inside your `GOPATH` (for me this is `/Users/jonashecht/dev/goworkspace`), execute:
+
+```
+micro new github.com/jonashackt/microservice-example-go/weatherservice
+```
+
+This will give something like:
+
+```
+$ micro new github.com/jonashackt/microservice-example-go/weatherservice
+Creating service go.micro.srv.weatherservice in /Users/jonashecht/dev/goworkspace/src/github.com/jonashackt/microservice-example-go/weatherservice
+
+.
+├── main.go
+├── plugin.go
+├── handler
+│   └── example.go
+├── subscriber
+│   └── example.go
+├── proto/example
+│   └── example.proto
+├── Dockerfile
+├── Makefile
+└── README.md
+
+
+download protobuf for micro:
+
+brew install protobuf
+go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
+go get -u github.com/micro/protoc-gen-micro
+
+compile the proto file example.proto:
+
+cd /Users/jonashecht/dev/goworkspace/src/github.com/jonashackt/microservice-example-go/weatherservice
+protoc --proto_path=. --go_out=. --micro_out=. proto/example/example.proto
+```
