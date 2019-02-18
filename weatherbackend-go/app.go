@@ -13,12 +13,10 @@ type App struct {
 }
 
 func (app *App) Run() {
-	app.StartWebServer("6768")
+	app.startWebServer("6768")
 }
 
-func (app *App) StartWebServer(port string) {
-
-	app.Router = NewRouter()
+func (app *App) startWebServer(port string) {
 
 	http.Handle("/", app.Router)
 
@@ -30,4 +28,8 @@ func (app *App) StartWebServer(port string) {
 		log.Println("An error occured starting HTTP listener at port " + port)
 		log.Println("Error: " + err.Error())
 	}
+}
+
+func (app *App) Initialize() {
+	app.Router = NewRouter()
 }

@@ -305,6 +305,51 @@ execute
 go test -v
 ```
 
+If that doesn't work, it gives you something like this
+
+```
+weatherbackend-go jonashecht$ go test -v
+=== RUN   TestGetSenseInThat
+--- FAIL: TestGetSenseInThat (0.00s)
+panic: runtime error: invalid memory address or nil pointer dereference [recovered]
+	panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x1244687]
+
+goroutine 19 [running]:
+testing.tRunner.func1(0xc000116100)
+	/usr/local/Cellar/go/1.11.5/libexec/src/testing/testing.go:792 +0x387
+panic(0x128b6e0, 0x14e3340)
+	/usr/local/Cellar/go/1.11.5/libexec/src/runtime/panic.go:513 +0x1b9
+github.com/gorilla/mux.(*Router).ServeHTTP(0x0, 0x1324900, 0xc00009c800, 0xc000116200)
+	/Users/jonashecht/dev/goworkspace/src/github.com/gorilla/mux/mux.go:176 +0x37
+github.com/jonashackt/microservice-example-go/weatherbackend-go.executeRequest(0xc000116200, 0x3)
+	/Users/jonashecht/dev/goworkspace/src/github.com/jonashackt/microservice-example-go/weatherbackend-go/main_test.go:33 +0xb0
+github.com/jonashackt/microservice-example-go/weatherbackend-go.TestGetSenseInThat(0xc000116100)
+	/Users/jonashecht/dev/goworkspace/src/github.com/jonashackt/microservice-example-go/weatherbackend-go/main_test.go:22 +0x65
+testing.tRunner(0xc000116100, 0x12eef18)
+	/usr/local/Cellar/go/1.11.5/libexec/src/testing/testing.go:827 +0xbf
+created by testing.(*T).Run
+	/usr/local/Cellar/go/1.11.5/libexec/src/testing/testing.go:878 +0x35c
+exit status 2
+FAIL	github.com/jonashackt/microservice-example-go/weatherbackend-go	0.018s
+```
+
+Now we should use Debugging to get more information
+
+### Debugging Go with IntelliJ on Mac
+
+You maybe get an error, that tells you `could not launch process: exec: "lldb-server": executable file not found in $PATH` or the like.
+
+All you need to do is to install X-Code command line tools with 
+
+```
+$ xcode-select --install
+```
+
+For me, this didn't work because of "networking problems". Luckily [you can download them directly](https://stackoverflow.com/a/20243261/4964553) from Apple Developer Tools site: https://developer.apple.com/downloads/index.action (you only need your Apple ID user & pw in place).
+
+
+
 ### Vendoring
 
 https://goenning.net/2017/02/23/packages-vendoring-in-go/

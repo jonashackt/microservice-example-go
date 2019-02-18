@@ -3,10 +3,20 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 )
 
 var app App
+
+func TestMain(m *testing.M) {
+	app = App{}
+	app.Initialize()
+
+	code := m.Run()
+
+	os.Exit(code)
+}
 
 func TestGetSenseInThat(t *testing.T) {
 	request, _ := http.NewRequest("GET", "/Jonas", nil)
