@@ -19,13 +19,18 @@ func TestMain(m *testing.M) {
 }
 
 func TestGetSenseInThat(t *testing.T) {
-	request, _ := http.NewRequest("GET", "/Jonas", nil)
+	// Given
+	name := "Jonas"
+	request, _ := http.NewRequest("GET", "/"+name, nil)
+
+	// When
 	response := executeRequest(request)
 
+	// Then
 	checkResponseCode(t, http.StatusOK, response.Code)
 
-	if body := response.Body.String(); body != "[]" {
-		t.Errorf("Expected an empty array. Got %s", body)
+	if body := response.Body.String(); body != "Hello "+name+"! This is a RESTful HttpService written in Go. Try to use some other HTTP verbs (don´t say 'methods' :P )\n" {
+		t.Errorf("Expected a specific string. Got %s", body)
 	}
 }
 

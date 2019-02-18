@@ -44,7 +44,7 @@ var routes = Routes{
 
 			log.Println("Request for /{name} with GET, name was: " + name)
 
-			writer.Write([]byte("Hello " + name + "! This is a RESTful HttpService written in Spring. Try to use some other HTTP verbs (don´t say 'methods' :P )\n"))
+			writer.Write([]byte("Hello " + name + "! This is a RESTful HttpService written in Go. Try to use some other HTTP verbs (don´t say 'methods' :P )\n"))
 		},
 	},
 }
