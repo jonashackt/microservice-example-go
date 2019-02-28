@@ -1,0 +1,22 @@
+{
+  "postalCode": "99425",
+  "flagColor": "blue",
+  "product": "ForecastBasic",
+  "users": [
+    {
+      "age": 27,
+      "contribution": 4300,
+      "methodOfPayment": "Bitcoin"
+    },
+    {
+      "age": 45,
+      "contribution": 500300,
+      "methodOfPayment": "Paypal"
+    },
+    {
+      "age": 67,
+      "contribution": 60000300,
+      "methodOfPayment": "Paypal"
+    }
+  ]
+}

@@ -360,6 +360,25 @@ https://arslan.io/2018/08/26/using-go-modules-with-vendor-support-on-travis-ci/
 
 https://jaxenter.de/restful-rest-api-go-golang-68845
 
+https://kev.inburke.com/kevin/golang-json-http/
+
+https://gist.github.com/reagent/043da4661d2984e9ecb1ccb5343bf438
+
+
+#### Testing Webservices
+
+httptest
+
+Start the server again with `go run .` and curl 
+
+Use Postman to access `localhost:6767/weather/general/outlook` via a POST with the following JSON body:
+
+```
+
+```
+
+
+
 ##### gorilla-mux
 
 https://gowebexamples.com/routes-using-gorilla-mux/
@@ -371,6 +390,7 @@ https://medium.com/@kelvin_sp/building-and-testing-a-rest-api-in-golang-using-go
 ##### Swagger Go
 
 https://www.ribice.ba/swagger-golang/
+
 
 ### Microservice frameworks
 

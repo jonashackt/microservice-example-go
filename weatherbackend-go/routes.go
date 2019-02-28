@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/jonashackt/microservice-example-go/weatherbackend-go/domain"
 	"log"
 	"net/http"
 )
@@ -38,13 +40,38 @@ var routes = Routes{
 		"GET",               // HTTP method
 		"/{name}",           // Route pattern
 		func(writer http.ResponseWriter, request *http.Request) {
-			contentTypeTextPlain(writer)
 
 			name := pathVariable("name", request)
 
 			log.Println("Request for /{name} with GET, name was: " + name)
 
+			contentTypeTextPlain(writer)
 			writer.Write([]byte("Hello " + name + "! This is a RESTful HttpService written in Go. Try to use some other HTTP verbs (don´t say 'methods' :P )\n"))
+		},
+	},
+	Route{
+		"GeneralOutlook",
+		"POST",
+		"/weather/general/outlook",
+		func(writer http.ResponseWriter, request *http.Request) {
+
+			var weather domain.Weather
+			if request.Body == nil {
+				http.Error(writer, "Please send a request body", 400)
+				return
+			}
+
+			err := json.NewDecoder(request.Body).Decode(weather)
+			if err != nil {
+				http.Error(writer, err.Error(), 400)
+				return
+			}
+
+			log.Println("Request for /weather/general/outlook with POST and weather with postalCode " + weather.PostalCode + " & flagColor " + weather.FlagColor)
+
+			contentTypeApplicationJson(writer)
+			writer.WriteHeader(http.StatusCreated)
+			writer.Write([]byte("{\"result\":\"CREATED\"}"))
 		},
 	},
 }
@@ -63,9 +90,3 @@ func contentTypeApplicationJson(writer http.ResponseWriter) {
 	writer.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	return
 }
-
-/*@RequestMapping(value = "/{name}", method = RequestMethod.GET, produces = "text/plain")
-public String whatsTheSenseInThat(@PathVariable("name") String name) {
-LOG.info("Request for /{name} with GET");
-return "Hello " + name + "! This is a RESTful HttpService written in Spring. Try to use some other HTTP verbs (don´t say 'methods' :P ) :)";
-}*/

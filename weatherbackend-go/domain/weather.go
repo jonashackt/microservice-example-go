@@ -1,8 +1,8 @@
 package domain
 
 type Weather struct {
-	PostalCode string
-	FlagColor  string
+	PostalCode string `json:"postalCode"`
+	FlagColor  string `json:"flagColor"`
 	//prod Product
 	//type Users []User
 }
